@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios'
 
 export default class CreateExercise extends Component{
     constructor(props){
@@ -25,6 +26,10 @@ export default class CreateExercise extends Component{
             users: ['test user'],
             username: 'test_user'
         })
+    }
+    onClick(e){
+        e.preventDefault();
+        
     }
     onChangeUsername(e){
         this.setState({
@@ -55,14 +60,23 @@ export default class CreateExercise extends Component{
             duration: this.state.duration,
             date: this.state.date
         }
+        axios.post('http://localhost:5000/testRoute', {
+            ...exercise
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         console.log(exercise);
 
-        window.location = '/';
+        // window.location = '/';
     }
     render() {
         return (
         <div>
-          <h3>Create New Exercise Log</h3>
+          <h3>Create New Carbon Log</h3>
           <form onSubmit={this.onSubmit}>
             <div className="form-group"> 
               <label>Username: </label>
@@ -110,7 +124,7 @@ export default class CreateExercise extends Component{
             </div>
     
             <div className="form-group">
-              <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
+              <input type="submit" onClick={this.onSubmit} value="Create Carbon Log" className="btn btn-primary" />
             </div>
           </form>
         </div>
